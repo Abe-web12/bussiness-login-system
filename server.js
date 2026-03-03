@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 connectDB();
 
@@ -13,11 +14,10 @@ app.use(express.static("public"));
 
 app.use("/api", authRoutes);
 
-// Protected Route
 app.get("/dashboard", authMiddleware, (req, res) => {
   res.sendFile(__dirname + "/public/dashboard.html");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log("Server running...");
 });
