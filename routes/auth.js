@@ -6,11 +6,11 @@ router.post("/register", async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({ username, email, password: hashedPassword });
-  await user.save();
+  const User = new User({ Username, email, password: hashedPassword });
+  await User.save();
 
   const token = jwt.sign(
-    { id: user._id },
+    { id: User._id },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
