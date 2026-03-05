@@ -13,7 +13,7 @@ const User = new User({
   password: hashedPassword
 });
 
-await user.save();
+await User.save();
 const token = jwt.sign(
   { id: User._id },
   process.env.JWT_SECRET,
