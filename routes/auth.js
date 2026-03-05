@@ -1,19 +1,26 @@
 router.post("/register", async (req, res) => {
-  const { Username, email, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) return res.json({ msg: "Email already exists" });
+const { username, email, password } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+const existingUser = await User.findOne({ email });
+if (existingUser) return res.json({ msg: "Email already exists" });
 
-  const User = new User({ Username, email, password: hashedPassword });
-  await User.save();
+const hashedPassword = await bcrypt.hash(password, 10);
 
-  const token = jwt.sign(
-    { id: User._id },
-    process.env.JWT_SECRET,
-    { expiresIn: "1h" }
-  );
+const user = new User({
+  username,
+  email,
+  password: hashedPassword
+});
 
-  res.json({ token });
+await user.save();
+
+const token = jwt.sign(
+  { id: user._id },
+  process.env.JWT_SECRET,
+  { expiresIn: "1h" }
+);
+
+res.json({ token });
+
 });
